@@ -14,9 +14,14 @@ export const Overlay = styled.div`
     overscroll-behavior-y: contain;
     overflow-y: auto;
     `;
-  
+
 export const Modal = styled.div`
     overscroll-behavior-y: contain;
     overflow-y: auto;
     max-width: calc(100vw - 200px);
 `;
+  
+
+
+
+

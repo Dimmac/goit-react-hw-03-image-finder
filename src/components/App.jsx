@@ -2,13 +2,11 @@ import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
 import Button from './Button/Button';
-// import Loader from './components/Loader/Loader';
-
+import Loader from './Loader/Loader';
 import API from '../services/pixabayservices';
 
 const newsApi = new API();
@@ -33,24 +31,18 @@ export default class App extends Component {
       newsApi.resetPage();
       this.setState({ picture: [] });
       this.setState({ scroll: false });
-
       this.fetchMorePictures();
     }
   }
 
   fetchMorePictures = () => {
     const { pictureName, scroll } = this.state;
-
     this.setState({ loading: true, scroll: true });
-
     newsApi.query = pictureName;
-    //console.log(this.state.pictureName);
 
     newsApi
       .fetchImages()
       .then(({ hits }) => {
-        //console.log(hits.length);
-
         this.setState(prevState => ({
           picture: [...prevState.picture, ...hits],
           image: true,
@@ -87,18 +79,14 @@ export default class App extends Component {
   render() {
     const { showModal, pictureModal } = this.state;
     const { picture, loading, image } = this.state;
-
     return (
       <div>
         <Searchbar formSubmit={this.formSubmitHandler}></Searchbar>
-
         {image && <ImageGallery picture={picture} onClick={this.toggleModal}></ImageGallery>}
-
         {picture.length > 0 && picture.length % 12 === 0 && (
           <Button pagination={this.fetchMorePictures}></Button>
         )}
-        {/* {loading && <Loader></Loader>} */}
-
+        {loading && <Loader></Loader>}
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={pictureModal} alt="" />
@@ -114,8 +102,7 @@ export default class App extends Component {
           rtl={false}
           pauseOnFocusLoss
           draggable
-          pauseOnHover
-        />
+          pauseOnHover/>
       </div>
     );
   }
