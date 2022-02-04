@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
-// import Modal from './components/Modal/Modal';
+import Modal from './Modal/Modal';
 import Button from './Button/Button';
 // import Loader from './components/Loader/Loader';
 
@@ -97,13 +97,13 @@ export default class App extends Component {
         {picture.length > 0 && picture.length % 12 === 0 && (
           <Button pagination={this.fetchMorePictures}></Button>
         )}
-        {/* {loading && <Loader></Loader>}
+        {/* {loading && <Loader></Loader>} */}
 
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={pictureModal} alt="" />
           </Modal>
-        )} */}
+        )}
 
         <ToastContainer
           position="top-center"
