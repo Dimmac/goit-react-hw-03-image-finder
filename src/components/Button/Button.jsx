@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import {Button} from './Button.styled';
+import {ButtonStyle} from './Button.styled';
 
 const Button = ({ pagination }) => {
   return (
-    <Button type="button" onClick={() => pagination()}>
+    <ButtonStyle type="button" onClick={() => pagination()}>
       Load more
-    </Button>
+    </ButtonStyle>
   );
 };
 

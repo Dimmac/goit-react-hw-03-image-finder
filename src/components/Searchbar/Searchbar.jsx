@@ -1,29 +1,56 @@
-import {SearchbarStyle} from './Searchbar.styled'
+import { Component } from 'react';
+import { BsSearch } from 'react-icons/bs';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {SearchList,SearchForm,SearchButton,ButtonLabel,SearchInput} from './Searchbar.styled'
 
-const Searchbar = () => {
+export default class Searchbar extends Component {
+  state = {
+    name: '',
+  };
 
-//     onSubmit = (event) => {
-// event.preventDefault();
-//     }
-fetch('https://pixabay.com/api/?q=cat&page=1&key=24470398-c309df70e691fcddcf65d58a2&image_type=photo&orientation=horizontal&per_page=12').then(res => res.json()).then(data => data)
+  handleNameChange = event => {
+    event.preventDefault();
+    const { name, value } = event.currentTarget;
+    this.setState({ [name]: value });
+  };
 
-    return (<SearchbarStyle>
-        <h1>Searchbar component</h1>
-        {/* <header class="searchbar">
-  <form class="form">
-    <button type="submit" class="button">
-      <span class="button-label">Search</span>
-    </button>
+  handleSubmit = evt => {
+    evt.preventDefault();
+    if (this.state.name.trim() === '') {
+      toast.error('Enter the name of the picture');
+      return;
+    }
 
-    <input
-      class="input"
-      type="text"
-      autocomplete="off"
-      autofocus
-      placeholder="Search images and photos"
-    />
-  </form>
-</header> */}
-        </SearchbarStyle>)
+    this.props.formSubmit(this.state);
+    this.reset();
+  };
+
+  reset = () => {
+    this.setState({ name: '' });
+  };
+
+  render() {
+    const { name } = this.state;
+    return (
+      <SearchList>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchButton type="submit">
+            <BsSearch/>
+            <ButtonLabel/>
+          </SearchButton>
+
+          <SearchInput
+            name="name"
+            type="text"
+            autoComplete="off"
+            autoFocus={true}
+            placeholder="Search images and photos"
+            value={name}
+            onChange={this.handleNameChange}
+          />
+        </SearchForm>
+      </SearchList>
+    );
+  }
 }
-export default Searchbar
