@@ -17,7 +17,7 @@ export default class App extends Component {
     pictureModal: null,
     showModal: false,
     picture: [],
-    loading: false,
+    isLoading: false,
     error: null,
     image: null,
     scroll: false,
@@ -29,15 +29,14 @@ export default class App extends Component {
 
     if (nextName !== prevName) {
       newsApi.resetPage();
-      this.setState({ picture: [] });
-      this.setState({ scroll: false });
+      this.setState({ picture: [],scroll: false });
       this.fetchMorePictures();
     }
   }
 
   fetchMorePictures = () => {
     const { pictureName, scroll } = this.state;
-    this.setState({ loading: true, scroll: true });
+    this.setState({ isLoading: true, scroll: true });
     newsApi.query = pictureName;
 
     newsApi
@@ -58,11 +57,11 @@ export default class App extends Component {
             behavior: 'smooth',
           });
         }
-      })
+      }
+    )
       .catch(error => this.setState({ error }))
-      .finally(() => this.setState({ loading: false }));
+      .finally(() => this.setState({ isLoading: false }));
   };
-
   formSubmitHandler = data => {
     const { name } = data;
     const normalizedNameContact = name.toLowerCase();
@@ -75,21 +74,20 @@ export default class App extends Component {
     }));
     this.setState({ pictureModal: largeImageURL });
   };
-
   render() {
     const { showModal, pictureModal } = this.state;
-    const { picture, loading, image } = this.state;
+    const { picture, isLoading, image } = this.state;
     return (
       <div>
         <Searchbar formSubmit={this.formSubmitHandler}></Searchbar>
         {image && <ImageGallery picture={picture} onClick={this.toggleModal}></ImageGallery>}
-        {picture.length > 0 && picture.length % 12 === 0 && (
+        {picture.length > 0 && !isLoading && (
           <Button pagination={this.fetchMorePictures}></Button>
         )}
-        {loading && <Loader></Loader>}
+        {isLoading && <Loader/>}
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <img src={pictureModal} alt="" />
+            <img src={pictureModal} alt={picture.tags} />
           </Modal>
         )}
 
